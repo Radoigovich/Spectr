@@ -11,17 +11,21 @@ import org.junit.Test;
 public class DatabaseConnectionTest {
     @Test
     public void databaseConnectionTest() {
-        String result = null;
+        String result;
         String expectedResult = "Participant{id=1, user=User{id=2, name='cabrucas'}, room=Room{id=1, name='General'}}";
         try (SessionFactory sessionFactory = new Configuration()
                                                                 .configure("hibernate.cfg.xml")
+                                                                .addAnnotatedClass(User.class)
+                                                                .addAnnotatedClass(Message.class)
+                                                                .addAnnotatedClass(Room.class)
                                                                 .addAnnotatedClass(Participant.class)
                                                                 .buildSessionFactory()) {
             Session session = sessionFactory.getCurrentSession();
+
             session.beginTransaction();
-            Participant participant = session.get(Participant.class, 1);
+            Participant msg = session.get(Participant.class, 1);
             session.getTransaction().commit();
-            result = participant.toString();
+            result = msg.toString();
         }
         Assert.assertEquals(expectedResult, result);
     }
