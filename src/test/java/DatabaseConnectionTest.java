@@ -1,7 +1,4 @@
-import com.simbirsoft.spectr.entity.Message;
-import com.simbirsoft.spectr.entity.Participant;
-import com.simbirsoft.spectr.entity.Room;
-import com.simbirsoft.spectr.entity.User;
+import com.simbirsoft.spectr.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -12,14 +9,15 @@ public class DatabaseConnectionTest {
     @Test
     public void databaseConnectionTest() {
         String result;
-        String expectedResult = "Participant{id=1, user=User{id=2, name='cabrucas'}, room=Room{id=1, name='General'}}";
+        String expectedResult = "Participant{id=1, user=User{id=2, name='cabrucas', role=USER}, room=Room{id=1, name='General'}}";
         try (SessionFactory sessionFactory = new Configuration()
-                                                                .configure("hibernate.cfg.xml")
-                                                                .addAnnotatedClass(User.class)
-                                                                .addAnnotatedClass(Message.class)
-                                                                .addAnnotatedClass(Room.class)
-                                                                .addAnnotatedClass(Participant.class)
-                                                                .buildSessionFactory()) {
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Message.class)
+                .addAnnotatedClass(Room.class)
+                .addAnnotatedClass(Participant.class)
+                .addAnnotatedClass(Role.class)
+                .buildSessionFactory()) {
             Session session = sessionFactory.getCurrentSession();
 
             session.beginTransaction();

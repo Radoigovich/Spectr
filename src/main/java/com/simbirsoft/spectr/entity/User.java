@@ -12,6 +12,10 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
+    Role role;
+
     public User() {
     }
 
@@ -40,6 +44,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
