@@ -1,10 +1,14 @@
 package com.simbirsoft.spectr.config;
 
+import com.simbirsoft.spectr.entity.*;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -16,6 +20,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @ComponentScan("com.simbirsoft.spectr")
 @EnableWebMvc
+@EnableTransactionManagement
 public class SpringConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 
@@ -53,5 +58,17 @@ public class SpringConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/styles/**").addResourceLocations("/WEB-INF/styles/");
+    }
+
+    @Bean
+    public SessionFactory sessionFactory() {
+        return new org.hibernate.cfg.Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Message.class)
+                .addAnnotatedClass(Room.class)
+                .addAnnotatedClass(Participant.class)
+                .addAnnotatedClass(Role.class)
+                .buildSessionFactory();
     }
 }
