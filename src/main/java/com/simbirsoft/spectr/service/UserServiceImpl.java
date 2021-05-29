@@ -4,6 +4,7 @@ import com.simbirsoft.spectr.dao.UserDAO;
 import com.simbirsoft.spectr.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
