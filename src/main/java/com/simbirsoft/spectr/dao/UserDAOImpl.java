@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,12 +17,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> list;
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Query<User> query = session.createQuery("from User", User.class);
-        list = query.getResultList();
-        session.getTransaction().commit();
+        List<User> list = query.getResultList();
         return list;
     }
 

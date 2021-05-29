@@ -1,5 +1,6 @@
 package com.simbirsoft.spectr.config;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.simbirsoft.spectr.entity.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,11 +19,16 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
+import java.util.Properties;
+
 @Configuration
-@ComponentScan("com.simbirsoft.spectr")
+@ComponentScan(basePackages = "com.simbirsoft.spectr")
 @EnableWebMvc
 @EnableTransactionManagement
 public class SpringConfig implements WebMvcConfigurer {
+    @Autowired
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -61,14 +68,38 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SessionFactory sessionFactory() {
-        return new org.hibernate.cfg.Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Message.class)
-                .addAnnotatedClass(Room.class)
-                .addAnnotatedClass(Participant.class)
-                .addAnnotatedClass(Role.class)
-                .buildSessionFactory();
+    public DataSource dataSource() {
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        try {
+            dataSource.setDriverClass("org.postgresql.Driver");
+            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/spectr");
+            dataSource.setUser("postgres");
+            dataSource.setPassword("123");
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
+        return dataSource;
+    }
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        Properties props = new Properties();
+
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        props.setProperty("hibernate.show_sql", "true");
+
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("com.simbirsoft.spectr.entity");
+        sessionFactory.setHibernateProperties(props);
+
+        return sessionFactory;
+    }
+
+    @Bean
+    public HibernateTransactionManager transactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
     }
 }
