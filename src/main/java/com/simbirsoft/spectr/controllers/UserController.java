@@ -3,9 +3,7 @@ package com.simbirsoft.spectr.controllers;
 import com.simbirsoft.spectr.entity.User;
 import com.simbirsoft.spectr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,16 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/users/{id}")
+    public User getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
+
+    @PostMapping("/users")
+    public User saveUser(@RequestBody User user){
+        userService.saveOrUpdateUser(user);
+        return user;
     }
 }

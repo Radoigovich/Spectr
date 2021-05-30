@@ -12,8 +12,8 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "user_role")
-    @Enumerated(EnumType.STRING)
+    @OneToOne
+    @JoinColumn(name = "user_role_id")
     Role role;
 
     public User() {
