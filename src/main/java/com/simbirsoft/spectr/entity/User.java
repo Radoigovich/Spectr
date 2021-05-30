@@ -1,7 +1,5 @@
 package com.simbirsoft.spectr.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 
 @Entity

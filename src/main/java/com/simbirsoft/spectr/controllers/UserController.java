@@ -12,8 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public List<User> getUsers() {
