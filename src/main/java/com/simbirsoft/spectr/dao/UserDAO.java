@@ -5,6 +5,7 @@ import com.simbirsoft.spectr.entity.User;
 import java.util.List;
 
 public interface UserDAO {
-    public List<User> getAllUsers();
-    public User getUser(int id);
+    List<User> getAllUsers();
+    User getUserById(int id);
+    void saveOrUpdateUser(User user);
 }

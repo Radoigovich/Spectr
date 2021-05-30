@@ -5,5 +5,7 @@ import com.simbirsoft.spectr.entity.User;
 import java.util.List;
 
 public interface UserService {
-    public List<User> getAllUsers();
+    List<User> getAllUsers();
+    User getUserById(int id);
+    void saveOrUpdateUser(User user);
 }
