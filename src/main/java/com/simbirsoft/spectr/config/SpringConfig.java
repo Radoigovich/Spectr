@@ -1,13 +1,13 @@
 package com.simbirsoft.spectr.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.simbirsoft.spectr.entity.*;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -25,11 +25,23 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "com.simbirsoft.spectr")
+@PropertySource("classpath:application.properties")
 @EnableWebMvc
 @EnableTransactionManagement
 public class SpringConfig implements WebMvcConfigurer {
-    @Autowired
     private final ApplicationContext applicationContext;
+
+    @Value("${database.DriverClass}")
+    private String databaseDriverClass;
+
+    @Value("${database.URL}")
+    private String databaseURL;
+
+    @Value("${database.User}")
+    private String databaseUser;
+
+    @Value("${database.password}")
+    private String databasePassword;
 
     @Autowired
     public SpringConfig(ApplicationContext applicationContext) {
@@ -71,10 +83,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         try {
-            dataSource.setDriverClass("org.postgresql.Driver");
-            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/spectr");
-            dataSource.setUser("postgres");
-            dataSource.setPassword("123");
+            dataSource.setDriverClass(databaseDriverClass);
+            dataSource.setJdbcUrl(databaseURL);
+            dataSource.setUser(databaseUser);
+            dataSource.setPassword(databasePassword);
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
