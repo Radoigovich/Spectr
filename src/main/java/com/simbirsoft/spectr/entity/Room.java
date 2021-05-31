@@ -1,6 +1,7 @@
 package com.simbirsoft.spectr.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "room")
@@ -13,6 +14,11 @@ public class Room {
     private String name;
 
     public Room() {
+    }
+
+    public Room(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Room(String name) {
@@ -41,5 +47,18 @@ public class Room {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return id == room.id && name.equals(room.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
