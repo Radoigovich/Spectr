@@ -1,27 +1,37 @@
 package com.simbirsoft.spectr.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+import javax.persistence.*;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Role {
-    @JsonValue
-    USER ("USER"),
-    @JsonValue
-    MODERATOR ("MODERATOR"),
-    @JsonValue
-    ADMIN("ADMIN");
+@Entity
+@Table(name = "user_role")
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(name = "name")
     private String name;
 
-    Role() {
+    public Role() {
     }
 
-    Role(String name) {
+    public Role(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
