@@ -28,9 +28,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User saveUser(@RequestBody User user){
+    public String saveUser(@RequestBody User user){
         userService.saveOrUpdateUser(user);
-        return user;
+        return "User saved";
     }
 
     @DeleteMapping("/users/{id}")

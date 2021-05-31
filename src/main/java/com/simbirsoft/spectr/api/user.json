@@ -1,0 +1,8 @@
+{
+  "id": 2,
+  "name": "cabrucas",
+  "role": {
+    "id": 1,
+    "name": "USER"
+  }
+}

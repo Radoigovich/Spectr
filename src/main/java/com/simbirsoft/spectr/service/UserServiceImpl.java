@@ -1,43 +1,38 @@
 package com.simbirsoft.spectr.service;
 
-import com.simbirsoft.spectr.dao.UserDAO;
 import com.simbirsoft.spectr.entity.User;
+import com.simbirsoft.spectr.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    @Transactional
     public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
+        return userRepository.findAll();
     }
 
     @Override
-    @Transactional
     public User getUserById(int id) {
-        return userDAO.getUserById(id);
+        return userRepository.findById(id).get();
     }
 
     @Override
-    @Transactional
     public void saveOrUpdateUser(User user) {
-        userDAO.saveOrUpdateUser(user);
+        userRepository.save(user);
     }
 
     @Override
-    @Transactional
     public void deleteUser(int id) {
-        userDAO.deleteUser(id);
+        userRepository.deleteById(id);
     }
 }
