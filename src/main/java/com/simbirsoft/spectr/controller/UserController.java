@@ -1,4 +1,4 @@
-package com.simbirsoft.spectr.controllers;
+package com.simbirsoft.spectr.controller;
 
 import com.simbirsoft.spectr.entity.User;
 import com.simbirsoft.spectr.service.UserService;
@@ -31,5 +31,11 @@ public class UserController {
     public User saveUser(@RequestBody User user){
         userService.saveOrUpdateUser(user);
         return user;
+    }
+
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return "User ID = " + id + " was deleted.";
     }
 }
