@@ -1,7 +1,6 @@
 package com.simbirsoft.spectr.service;
 
 import com.simbirsoft.spectr.entity.Message;
-import com.simbirsoft.spectr.entity.User;
 
 import java.util.List;
 

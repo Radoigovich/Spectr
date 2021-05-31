@@ -36,6 +36,6 @@ public class MessageController {
     @DeleteMapping("/messages/{id}")
     public String deleteMessage(@PathVariable int id) {
         messageService.deleteMessageById(id);
-        return "User ID = " + id + " was deleted.";
+        return "Message ID = " + id + " was deleted.";
     }
 }
