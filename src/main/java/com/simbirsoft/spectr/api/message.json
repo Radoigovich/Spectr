@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "messageText": "Hi",
+  "sender": {
+    "id": 1,
+    "name": "changed name",
+    "role": {
+      "id": 3,
+      "name": "ADMIN"
+    }
+  },
+  "room": {
+    "id": 1,
+    "name": "General"
+  }
+}

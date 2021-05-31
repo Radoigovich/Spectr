@@ -12,11 +12,11 @@ public class Message {
     @Column(name = "message_text")
     private String messageText;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "chat_user_id")
     private User sender;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
